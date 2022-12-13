@@ -1,8 +1,7 @@
 const mongoose= require("mongoose");
-const mongoUrl= "mongodb://127.0.0.1:27017/users";
-mongoose.set('strictQuery', true); //eroare terminal
 
-const usersSchema= mongoose.Schema(
+
+const usersSchema= new mongoose.Schema(
     {
         ID: {
             type: String,
