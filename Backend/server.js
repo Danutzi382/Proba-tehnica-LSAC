@@ -138,14 +138,16 @@ app.delete( '/memes/: _id', async (req, res) => {
 app.post('/users/register', [
     check('Username', 'The length of the username must be between 8 and 32 characters').isLength({min: 8, max : 32}),
     check('Password', 'The length of the password must be between 8 and 32 characters').isLength({min: 8, max : 32}),
-    check('Email', 'The field must be a valid email').isEmail(),
-    check('Email','The field must end in @stud.acs.upb.ro').endsWith('(@stud.acs.upb.ro')],
+    check('Email', 'The field must be a valid email').isEmail()],
     async(req, res) => {   
     const errors = validationResult(req);
+    const email=req.body.Email;
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     } 
-    const email=req.body.Email;
+    if(!email.endsWith('@stud.acs.upb.ro')){
+        return res.status(400).send('Email must end in @stud.acs.upb.ro');
+    }
     const username=req.body.Username;
     const password= req.body.Password;
     const hash = bcrypt.hashSync(password, 10);
